@@ -28,4 +28,8 @@ Launch from command line using `test.exe [type] [pipe-name]`
 After that just type a `string` you want to send or "special keyword" `example` to send an instance of `ExampleMessage` with randomized data.
 Message is deserialized before sending and deserialized again when received on another end.
 
+You can also send messages to the created pipe from console itself
+
+`C:\WINDOWS\system32>echo something_i_want_to_send > \\.\pipe\mypipe`
+
 ![test command line application](/git_images/pipes.gif?raw=true)
