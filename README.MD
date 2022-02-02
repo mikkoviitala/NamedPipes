@@ -19,7 +19,7 @@ Both types implements common interface for ease of use.
 
 ## Console test application
 
-You can use provided command line test application to play around with the pipes.
+You can use provided command line test application to play around with the pipes.<br>
 Launch from command line using `test.txt [type] [pipe-name]`
 
     test.exe server mypipe
