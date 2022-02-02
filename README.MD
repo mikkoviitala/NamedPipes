@@ -1,7 +1,7 @@
 
 ## NamedPipes
 
-Use can use classes provided by `NamedPipes.dll` to create pipe server- and client for cross process communication on same machine.
+Use can use classes provided by `NamedPipes.dll` to create pipe server- and client for cross process communication on the same machine.<br>
 Both types implements common interface for ease of use.
 
 ## Features
