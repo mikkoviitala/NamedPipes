@@ -105,8 +105,8 @@ namespace NamedPipes.TestClient
             Console.WriteLine();
             Console.WriteLine($"Starting {pipe.GetType().Name} on pipe {pipe.PipeName}");
             Console.WriteLine();
-            Console.WriteLine("> Type [any string] and press ENTER to send it to client/server");
-            Console.WriteLine("> Type \"example\" and press ENTER to send ExampleMessage to client/server");
+            Console.WriteLine("> Type [any string] and press ENTER to send");
+            Console.WriteLine("> Type \"example\" and press ENTER to send");
             Console.WriteLine("> Type \"q\" and press ENTER to quit");
             Console.WriteLine();
         }
