@@ -7,7 +7,7 @@ Both types implements common interface for ease of use.
 ## Features
 - Connection state detection
 - Events when connection state changes or when message is sent or received
-- You can send any `string` or any instance of an class derived fron `MessageBase` (sample included)
+- You can send any `string` or any instance of an class derived from `MessageBase` (sample included)
 - Messaging is two-way and asynchronous
 
 ## Basic usage
