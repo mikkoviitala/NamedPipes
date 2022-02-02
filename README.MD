@@ -25,7 +25,7 @@ Launch from command line using `test.exe [type] [pipe-name]`
     test.exe server mypipe
     test.exe client mypipe
 
-After that just type a `string` you want to send or "special keyword" `example` to send instance of `ExampleMessage` with randomized data.
+After that just type a `string` you want to send or "special keyword" `example` to send an instance of `ExampleMessage` with randomized data.
 Message is deserialized before sending and deserialized again when received on another end.
 
 ![test command line application](/git_images/pipes.gif?raw=true)
