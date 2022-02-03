@@ -61,6 +61,8 @@ namespace NamedPipes.TestClient
                     pipe.Send(input);
 
             } while (input != null && !input.Equals("q", StringComparison.OrdinalIgnoreCase));
+
+            pipe.Dispose();
         }
 
         /// <summary>

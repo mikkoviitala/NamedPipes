@@ -10,7 +10,7 @@ namespace NamedPipes
     /// <remarks>
     /// Both server and client implement this interface for ease of use and better abstraction
     /// </remarks>
-    public interface IPipe
+    public interface IPipe : IDisposable
     {
         /// <summary>
         /// Connection state changed event

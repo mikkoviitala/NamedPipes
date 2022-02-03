@@ -11,7 +11,7 @@ namespace NamedPipes
     /// PipeBase
     /// Base PipeStream implementation, shared by client and server
     /// </summary>
-    public abstract class PipeBase : IPipe, IDisposable
+    public abstract class PipeBase : IPipe
     {
         public event EventHandler<ConnectionStateEventArgs> OnConnectionStateChanged;
         public event EventHandler<MessageEventArgs> OnMessageSent;
