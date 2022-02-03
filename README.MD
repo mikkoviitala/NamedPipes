@@ -25,7 +25,9 @@ Launch from command line using `test.exe [type] [pipe-name]`
     test.exe server mypipe
     test.exe client mypipe
 
-After that just type a `string` you want to send or "special keyword" `example` to send an instance of `ExampleMessage` with randomized data.
+You can chage connection state by using `open` and `close` keywords.
+
+After connection is established, just type a `string` you want to send or `example` to send an instance of `ExampleMessage` with randomized data.
 Message is deserialized before sending and deserialized again when received on another end.
 
 You can also send messages to the pipe using console alone
