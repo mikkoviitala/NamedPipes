@@ -5,6 +5,8 @@ test.exe client [my-pipe-name]
 
 Commands
 =============================
-[string] = send [string] to receiver
+open     = open connection
+close    = close connection
 example  = send ExampleMessage with randomized data
+[string] = send [string] to receiver
 q        = quit

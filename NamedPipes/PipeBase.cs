@@ -16,6 +16,7 @@ namespace NamedPipes
         public event EventHandler<ConnectionStateEventArgs> OnConnectionStateChanged;
         public event EventHandler<MessageEventArgs> OnMessageSent;
         public event EventHandler<MessageEventArgs> OnMessageReceived;
+        private bool _disposed;
 
         /// <summary>
         /// Constructor
@@ -35,14 +36,14 @@ namespace NamedPipes
         public string PipeName { get; }
 
         /// <summary>
-        /// Pipe stream
-        /// </summary>
-        protected PipeStream PipeStream { get; set; }
-
-        /// <summary>
         /// Connection state
         /// </summary>
         public ConnectionState ConnectionState { get; protected set; } = ConnectionState.Disconnected;
+
+        /// <summary>
+        /// Pipe stream
+        /// </summary>
+        protected PipeStream PipeStream { get; set; }
 
         /// <summary>
         /// Open connection
@@ -60,33 +61,17 @@ namespace NamedPipes
             if (PipeStream == null)
                 return;
 
-            if (PipeStream.IsConnected)
+            try
             {
-                switch (PipeStream)
-                {
-                    case NamedPipeServerStream server:
-                        server.Disconnect();
-                        break;
-                    case NamedPipeClientStream client:
-                        client.WaitForPipeDrain();
-                        break;
-                }
+                if (PipeStream is NamedPipeServerStream server)
+                    server.Disconnect();
             }
+            catch (InvalidOperationException)
+            {}
 
             PipeStream.Close();
-            PipeStream.Dispose();
             PipeStream = null;
-
             ConnectionStateChanged();
-        }
-
-        /// <summary>
-        /// Reset connection
-        /// </summary>
-        private void Reset()
-        {
-            Close();
-            Open();
         }
 
         /// <summary>
@@ -97,11 +82,18 @@ namespace NamedPipes
             if (PipeBroken() || string.IsNullOrWhiteSpace(message))
                 return;
 
-            var writer = new StreamWriter(PipeStream) { AutoFlush = true };
-            writer.WriteLine(message);
-            PipeStream.WaitForPipeDrain();
+            try
+            {
+                var writer = new StreamWriter(PipeStream) {AutoFlush = true};
+                writer.WriteLine(message);
+                PipeStream.WaitForPipeDrain();
 
-            OnMessageSent?.Invoke(this, new MessageEventArgs(message));
+                OnMessageSent?.Invoke(this, new MessageEventArgs(message));
+            }
+            catch (IOException)
+            {
+                ConnectionStateChanged();
+            }
         }
 
         /// <summary>
@@ -114,6 +106,24 @@ namespace NamedPipes
 
             var knownMessage = $"{message.MessageType}{MessageBase.Serialize(message)}";
             Send(knownMessage);
+        }
+
+        /// <summary>
+        /// Implement IDisposable
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        public void Dispose(bool disposing)
+        {
+            if (_disposed || !disposing)
+                return;
+
+            PipeStream?.Dispose();
+
+            _disposed = true;
         }
 
         /// <summary>
@@ -151,6 +161,15 @@ namespace NamedPipes
         }
 
         /// <summary>
+        /// Reset connection
+        /// </summary>
+        private void Reset()
+        {
+            Close();
+            Open();
+        }
+
+        /// <summary>
         /// Check connection state and raise event
         /// </summary>
         private void ConnectionStateChanged()
@@ -174,14 +193,6 @@ namespace NamedPipes
         private bool PipeBroken()
         {
             return PipeStream == null || !PipeStream.IsConnected;
-        }
-
-        /// <summary>
-        /// Implement IDisposable
-        /// </summary>
-        public void Dispose()
-        {
-            PipeStream?.Dispose();
         }
     }
 }

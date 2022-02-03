@@ -13,7 +13,7 @@ namespace NamedPipes
         /// </summary>
         /// <param name="pipeName">name</param>
         public PipeServer(string pipeName)
-            :base(pipeName)
+            : base(pipeName)
         {}
         
         /// <summary>

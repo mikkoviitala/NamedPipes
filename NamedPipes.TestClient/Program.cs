@@ -43,13 +43,6 @@ namespace NamedPipes.TestClient
                 }
             };
 
-            // Open connection
-            pipe.Open();
-
-            // Catch CTRL+C
-            Console.CancelKeyPress += (sender, eventArgs) =>
-                pipe.Close();
-
             // Process user input
             string input;
             do
@@ -60,12 +53,14 @@ namespace NamedPipes.TestClient
 
                 if (input.Equals("example", StringComparison.OrdinalIgnoreCase))
                     pipe.Send(new ExampleMessage(Math.Abs((int) DateTime.Now.Ticks)));
+                else if (input.Equals("open", StringComparison.OrdinalIgnoreCase))
+                    pipe.Open();
+                else if (input.Equals("close", StringComparison.OrdinalIgnoreCase))
+                    pipe.Close();
                 else if (!input.Equals("q", StringComparison.OrdinalIgnoreCase))
                     pipe.Send(input);
 
             } while (input != null && !input.Equals("q", StringComparison.OrdinalIgnoreCase));
-
-            pipe.Close();
         }
 
         /// <summary>
@@ -105,8 +100,10 @@ namespace NamedPipes.TestClient
             Console.WriteLine();
             Console.WriteLine($"Starting {pipe.GetType().Name} on pipe {pipe.PipeName}");
             Console.WriteLine();
-            Console.WriteLine("> Type [any string] and press ENTER to send");
-            Console.WriteLine("> Type \"example\" and press ENTER to send");
+            Console.WriteLine("> Type \"open\" and press ENTER to open connection");
+            Console.WriteLine("> Type \"close\" and press ENTER to close connection");
+            Console.WriteLine("> Type \"example\" and press ENTER to send example message");
+            Console.WriteLine("> Type [any string] and press ENTER to send any string");
             Console.WriteLine("> Type \"q\" and press ENTER to quit");
             Console.WriteLine();
         }
