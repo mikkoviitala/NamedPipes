@@ -11,8 +11,8 @@ Both types implements common interface for ease of use.
 - Messaging is two-way and asynchronous
 
 ## Basic usage
-    IPipe server = new PipeServer("MyPipe);
-    IPipe client = new PipeClient("MyPipe);
+    IPipe server = new PipeServer("MyPipe");
+    IPipe client = new PipeClient("MyPipe");
 
     server.OnMessageReceived += (sender, args) => Console.WriteLine(args.Message);
     client.Send("Hello");
@@ -28,10 +28,10 @@ Launch from command line using `test.exe [type] [pipe-name]`
 You can chage connection state by using `open` and `close` keywords.
 
 After connection is established, just type a `string` you want to send or `example` to send an instance of `ExampleMessage` with randomized data.
-Message is deserialized before sending and deserialized again when received on another end.
+Message is serialized before sending and deserialized again when received on another end.
 
 You can also send messages to the pipe using console alone
 
-`C:\WINDOWS\system32>echo something_i_want_to_send > \\.\pipe\mypipe`
+`C:\WINDOWS\system32>echo something_string_here > \\.\pipe\mypipe`
 
 ![test command line application](/git_images/pipes.gif?raw=true)
